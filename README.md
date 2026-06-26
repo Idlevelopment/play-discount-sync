@@ -35,7 +35,7 @@ This targets the **`monetization.onetimeproducts`** API and handles **one-time i
 ### 2. Grant it Play Console access
 
 1. **Play Console → Setup → API access**, link the Google Cloud project if prompted, and find the service account in the list.
-2. Grant access and assign a role/permission that can **view financial data and manage products** for the app whose products you are pricing.
+2. Grant the account access to the app and enable the **Manage store presence** permission — this is what allows the action to read and write in-app product prices. (Read-only permissions let the initial read succeed but cause the price `PATCH` to fail with `403 PERMISSION_DENIED`.) Permission changes can take a few minutes to propagate.
 
 ### 3. Add the GitHub Secret
 
@@ -162,5 +162,5 @@ Rows marked with `!` are regions where rounding to the currency unit moved the p
 - **No price tiers.** Google Play accepts arbitrary amounts, so prices are exact arithmetic rounded to each currency's minor unit. Zero-decimal currencies (JPY, KRW, …) are handled automatically.
 - Only **regions the target product already sells in** are updated. A region present on the target but missing from the source is skipped (and reported). Existing **availability** and other per-region settings on the target are preserved.
 - Each run writes the target product's purchase-option prices in a single `PATCH` (`updateMask=purchaseOptions`), reusing the regions version Google returns for the product.
-- The service account needs permission to view financial data and manage in-app products for the app, and must be linked under **Play Console → Setup → API access**.
+- The service account needs the **Manage store presence** permission for the app (required to write product prices) and must be linked under **Play Console → Setup → API access**. Read-only access fails the price `PATCH` with `403 PERMISSION_DENIED`.
 - **One-time products only.** Subscriptions use the `monetization.subscriptions` API and are not handled by this action.
