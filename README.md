@@ -2,6 +2,8 @@
 
 A GitHub Action that automatically syncs Google Play one-time in-app product prices across products with a configurable discount — applied individually for every region using each country's actual local price.
 
+> App Store equivalent: [appstore-discount-sync](https://github.com/Idlevelopment/appstore-discount-sync)
+
 ## Why this exists
 
 If you have two in-app products where one should always be priced at a discount relative to the other, keeping that relationship consistent across every country by hand is tedious and error-prone. Exchange rates drift, you tweak the base price, and the discount silently varies from region to region.
